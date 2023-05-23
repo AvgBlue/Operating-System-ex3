@@ -5,34 +5,38 @@
 #include <stdlib.h>
 #include <string.h>
 
-
-typedef struct Node {
+typedef struct Node
+{
     char *data;
     struct Node *next;
 } Node;
 
-typedef struct {
+typedef struct
+{
     Node *head;
     Node *tail;
     int count;
 } Unbounded_Buffer;
 
-Unbounded_Buffer* createBuffer();
-void destroyBuffer(Unbounded_Buffer *buffer);
-void insert(Unbounded_Buffer *buffer, const char *s);
-char* removeItem(Unbounded_Buffer *buffer);
-bool isBufferEmpty(const Unbounded_Buffer *buffer);
+Unbounded_Buffer *create_Unbounded_Buffer();
+void destroy_Unbounded_Buffer(Unbounded_Buffer *buffer);
+void insert_Unbounded_Buffer(Unbounded_Buffer *buffer, const char *s);
+char *removeItem_Unbounded_Buffer(Unbounded_Buffer *buffer);
+bool isBufferEmpty_Unbounded_Buffer(const Unbounded_Buffer *buffer);
 
-Unbounded_Buffer* createBuffer() {
-    Unbounded_Buffer *buffer = (Unbounded_Buffer*) malloc(sizeof(Unbounded_Buffer));
+Unbounded_Buffer *create_Unbounded_Buffer()
+{
+    Unbounded_Buffer *buffer = (Unbounded_Buffer *)malloc(sizeof(Unbounded_Buffer));
     buffer->head = NULL;
     buffer->tail = NULL;
     buffer->count = 0;
     return buffer;
 }
 
-void destroyBuffer(Unbounded_Buffer *buffer) {
-    while (buffer->head != NULL) {
+void destroy_Unbounded_Buffer(Unbounded_Buffer *buffer)
+{
+    while (buffer->head != NULL)
+    {
         Node *temp = buffer->head;
         buffer->head = buffer->head->next;
         free(temp->data);
@@ -41,15 +45,19 @@ void destroyBuffer(Unbounded_Buffer *buffer) {
     free(buffer);
 }
 
-void insert(Unbounded_Buffer *buffer, const char *s) {
-    Node *newNode = (Node*) malloc(sizeof(Node));
+void insert_Unbounded_Buffer(Unbounded_Buffer *buffer, const char *s)
+{
+    Node *newNode = (Node *)malloc(sizeof(Node));
     newNode->data = strdup(s);
     newNode->next = NULL;
 
-    if (buffer->head == NULL) {
+    if (buffer->head == NULL)
+    {
         buffer->head = newNode;
         buffer->tail = newNode;
-    } else {
+    }
+    else
+    {
         buffer->tail->next = newNode;
         buffer->tail = newNode;
     }
@@ -57,8 +65,10 @@ void insert(Unbounded_Buffer *buffer, const char *s) {
     buffer->count++;
 }
 
-char* removeItem(Unbounded_Buffer *buffer) {
-    if (buffer->head == NULL) {
+char *removeItem_Unbounded_Buffer(Unbounded_Buffer *buffer)
+{
+    if (buffer->head == NULL)
+    {
         return NULL;
     }
 
@@ -72,8 +82,9 @@ char* removeItem(Unbounded_Buffer *buffer) {
     return data;
 }
 
-bool isBufferEmpty(const Unbounded_Buffer *buffer) {
+bool isBufferEmpty_Unbounded_Buffer(const Unbounded_Buffer *buffer)
+{
     return buffer->head == NULL;
 }
 
-#endif  /* UNBOUNDED_BUFFER_H */
+#endif /* UNBOUNDED_BUFFER_H */

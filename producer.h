@@ -17,8 +17,14 @@ Producer *createProduct(int producerId, int productsNum, int size)
     producer->id = producerId;
     producer->numProducts = productsNum;
     producer->queueSize = size;
-    producer->buffer = createBuffer(size);
+    producer->buffer = create_Bounded_Buffer(size);
     return producer;
+}
+
+void destroyProducer(Producer *producer)
+{
+    destroy_Bounded_Buffer(producer->buffer);
+    free(producer);
 }
 
 #endif /* PRODUCER_H */

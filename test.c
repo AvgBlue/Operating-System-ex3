@@ -3,30 +3,30 @@
 
 int main()
 {
-    Unbounded_Buffer *buffer = createBuffer();
+    Unbounded_Buffer *buffer = create_Unbounded_Buffer();
 
-    insert(buffer, "Item 1");
-    insert(buffer, "Item 2");
-    insert(buffer, "Item 3");
-    insert(buffer, "Item 4");
-    insert(buffer, "Item 5");
-    insert(buffer, "Item 6");
-    insert(buffer, "Item 7");
-    insert(buffer, "Item 8");
-    insert(buffer, "Item 9");
+    insert_Unbounded_Buffer(buffer, "Item 1");
+    insert_Unbounded_Buffer(buffer, "Item 2");
+    insert_Unbounded_Buffer(buffer, "Item 3");
+    insert_Unbounded_Buffer(buffer, "Item 4");
+    insert_Unbounded_Buffer(buffer, "Item 5");
+    insert_Unbounded_Buffer(buffer, "Item 6");
+    insert_Unbounded_Buffer(buffer, "Item 7");
+    insert_Unbounded_Buffer(buffer, "Item 8");
+    insert_Unbounded_Buffer(buffer, "Item 9");
 
-    printf("Buffer is empty: %s\n", isBufferEmpty(buffer) ? "true" : "false");
+    printf("Buffer is empty: %s\n", isBufferEmpty_Unbounded_Buffer(buffer) ? "true" : "false");
 
-    while (!isBufferEmpty(buffer))
+    while (!isBufferEmpty_Unbounded_Buffer(buffer))
     {
-        char *item = removeItem(buffer);
+        char *item = removeItem_Unbounded_Buffer(buffer);
         printf("Removed item: %s\n", item);
         free(item);
     }
 
-    printf("Buffer is empty: %s\n", isBufferEmpty(buffer) ? "true" : "false");
+    printf("Buffer is empty: %s\n", isBufferEmpty_Unbounded_Buffer(buffer) ? "true" : "false");
 
-    destroyBuffer(buffer);
+    destroy_Unbounded_Buffer(buffer);
 
     return 0;
 }

@@ -5,22 +5,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct {
-    char **buffer;    // Buffer array
-    int capacity;     // Maximum capacity of the buffer
-    int front;        // Index of the front item
-    int rear;         // Index of the rear item
-    int count;        // Current number of items in the buffer
+typedef struct
+{
+    char **buffer; // Buffer array
+    int capacity;  // Maximum capacity of the buffer
+    int front;     // Index of the front item
+    int rear;      // Index of the rear item
+    int count;     // Current number of items in the buffer
 } Bounded_Buffer;
 
 // Function prototypes
-Bounded_Buffer* createBuffer(int size);
-void destroyBuffer(Bounded_Buffer *buffer);
-void insert(Bounded_Buffer *buffer, const char *s);
-char* removeItem(Bounded_Buffer *buffer);
+Bounded_Buffer *create_Bounded_Buffer(int size);
+void destroy_Bounded_Buffer(Bounded_Buffer *buffer);
+void insert_Bounded_Buffer(Bounded_Buffer *buffer, const char *s);
+char *removeItem_Bounded_Buffer(Bounded_Buffer *buffer);
 
-
-Bounded_Buffer *createBuffer(int size)
+Bounded_Buffer *create_Bounded_Buffer(int size)
 {
     Bounded_Buffer *buffer = (Bounded_Buffer *)malloc(sizeof(Bounded_Buffer));
     buffer->buffer = (char **)malloc(sizeof(char *) * size);
@@ -41,13 +41,13 @@ bool isBufferEmpty(const Bounded_Buffer *buffer)
     return buffer->count == 0;
 }
 
-void destroyBuffer(Bounded_Buffer *buffer)
+void destroy_Bounded_Buffer(Bounded_Buffer *buffer)
 {
     free(buffer->buffer);
     free(buffer);
 }
 
-void insert(Bounded_Buffer *buffer, const char *s)
+void insert_Bounded_Buffer(Bounded_Buffer *buffer, const char *s)
 {
     if (isBufferFull(buffer))
     {
@@ -64,7 +64,7 @@ void insert(Bounded_Buffer *buffer, const char *s)
     buffer->count++;
 }
 
-char *removeItem(Bounded_Buffer *buffer)
+char *removeItem_Bounded_Buffer(Bounded_Buffer *buffer)
 {
     if (isBufferEmpty(buffer))
     {
@@ -79,4 +79,4 @@ char *removeItem(Bounded_Buffer *buffer)
     return item;
 }
 
-#endif  /* BOUNDED_BUFFER_H */
+#endif /* BOUNDED_BUFFER_H */
