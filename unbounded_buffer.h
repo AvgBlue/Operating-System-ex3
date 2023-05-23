@@ -39,16 +39,15 @@ void destroy_Unbounded_Buffer(Unbounded_Buffer *buffer)
     {
         Node *temp = buffer->head;
         buffer->head = buffer->head->next;
-        free(temp->data);
         free(temp);
     }
     free(buffer);
 }
 
-void insert_Unbounded_Buffer(Unbounded_Buffer *buffer, const char *s)
+void insert_Unbounded_Buffer(Unbounded_Buffer *buffer, char *s)
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
-    newNode->data = strdup(s);
+    newNode->data = s;
     newNode->next = NULL;
 
     if (buffer->head == NULL)

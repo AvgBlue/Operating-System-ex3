@@ -37,4 +37,19 @@ void destroyDispatcher(Dispatcher *dispatcher)
     free(dispatcher);
 }
 
+void start_Dispatcher(Dispatcher *dispatcher)
+{
+    int isAllDone = 0;
+    while (!isAllDone)
+    {
+        isAllDone = 1;
+        for (int i = 0; i < dispatcher->bb_list_size; i++)
+        {
+            if (!is_Bounded_Buffer_(dispatcher->bb_list[i]))
+            {
+            }
+        }
+    }
+}
+
 #endif /* DISPATCHER_H */

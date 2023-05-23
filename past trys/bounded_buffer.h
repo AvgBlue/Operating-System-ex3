@@ -4,28 +4,26 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#define ERROR_VALUE -1
-typedef int v4si __attribute__((vector_size(16)));
 
 typedef struct
 {
-    v4si *buffer; // Buffer array
-    int capacity; // Maximum capacity of the buffer
-    int front;    // Index of the front item
-    int rear;     // Index of the rear item
-    int count;    // Current number of items in the buffer
+    char **buffer; // Buffer array
+    int capacity;  // Maximum capacity of the buffer
+    int front;     // Index of the front item
+    int rear;      // Index of the rear item
+    int count;     // Current number of items in the buffer
 } Bounded_Buffer;
 
 // Function prototypes
 Bounded_Buffer *create_Bounded_Buffer(int size);
 void destroy_Bounded_Buffer(Bounded_Buffer *buffer);
-void insert_Bounded_Buffer(Bounded_Buffer *buffer, v4si v);
-v4si removeItem_Bounded_Buffer(Bounded_Buffer *buffer);
+void insert_Bounded_Buffer(Bounded_Buffer *buffer, char *s);
+char *removeItem_Bounded_Buffer(Bounded_Buffer *buffer);
 
 Bounded_Buffer *create_Bounded_Buffer(int size)
 {
     Bounded_Buffer *buffer = (Bounded_Buffer *)malloc(sizeof(Bounded_Buffer));
-    buffer->buffer = (v4si *)malloc(sizeof(v4si) * size);
+    buffer->buffer = (char **)malloc(sizeof(char *) * size);
     buffer->capacity = size;
     buffer->front = 0;
     buffer->rear = -1;
@@ -49,7 +47,7 @@ void destroy_Bounded_Buffer(Bounded_Buffer *buffer)
     free(buffer);
 }
 
-void insert_Bounded_Buffer(Bounded_Buffer *buffer, v4si v)
+void insert_Bounded_Buffer(Bounded_Buffer *buffer, char *s)
 {
     if (isBufferFull(buffer))
     {
@@ -57,20 +55,19 @@ void insert_Bounded_Buffer(Bounded_Buffer *buffer, v4si v)
         return;
     }
     buffer->rear = (buffer->rear + 1) % buffer->capacity;
-    buffer->buffer[buffer->rear] = v;
+    buffer->buffer[buffer->rear] = s;
     buffer->count++;
 }
 
-v4si removeItem_Bounded_Buffer(Bounded_Buffer *buffer)
+char *removeItem_Bounded_Buffer(Bounded_Buffer *buffer)
 {
     if (isBufferEmpty(buffer))
     {
         // Buffer is empty, nothing to remove
-        v4si returnValue = {ERROR_VALUE, ERROR_VALUE, ERROR_VALUE, ERROR_VALUE};
-        return returnValue;
+        return NULL;
     }
 
-    v4si item = buffer->buffer[buffer->front];
+    char *item = buffer->buffer[buffer->front];
     buffer->front = (buffer->front + 1) % buffer->capacity;
     buffer->count--;
 

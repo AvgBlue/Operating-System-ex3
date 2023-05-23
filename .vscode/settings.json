@@ -1,0 +1,5 @@
+{
+    "files.associations": {
+        "bounded_buffer.h": "c"
+    }
+}
