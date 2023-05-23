@@ -5,18 +5,20 @@
 
 typedef struct
 {
+    int id;
     int numProducts;
     int queueSize;
     Bounded_Buffer *buffer;
-} Product;
+} Producer;
 
-Product *createProduct(int size)
+Producer *createProduct(int producerId, int productsNum, int size)
 {
-    Product *product = (Product *)malloc(sizeof(Product));
-    product->numProducts = 0;
-    product->queueSize = size;
-    product->buffer = createBuffer(size);
-    return product;
+    Producer *producer = (Producer *)malloc(sizeof(Producer));
+    producer->id = producerId;
+    producer->numProducts = productsNum;
+    producer->queueSize = size;
+    producer->buffer = createBuffer(size);
+    return producer;
 }
 
 #endif /* PRODUCER_H */
