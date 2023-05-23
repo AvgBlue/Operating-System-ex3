@@ -41,47 +41,78 @@
 //     return result;
 // }
 
+// #include <stdio.h>
+// #include "bounded_buffer.h"
+
+// int main()
+// {
+//     // Create a bounded buffer of size 5
+//     Bounded_Buffer *buffer = create_Bounded_Buffer(5);
+
+//     // Insert some elements into the buffer
+//     v4si v1 = {1, 2, 3, 4};
+//     insert_Bounded_Buffer(buffer, v1);
+
+//     v4si v2 = {5, 6, 7, 8};
+//     insert_Bounded_Buffer(buffer, v2);
+
+//     v4si v3 = {9, 10, 11, 12};
+//     insert_Bounded_Buffer(buffer, v3);
+//     // Remove an element from the buffer
+//     v4si removed_item = removeItem_Bounded_Buffer(buffer);
+//     printf("Removed item: {%d, %d, %d, %d}\n",
+//            removed_item[0], removed_item[1], removed_item[2], removed_item[3]);
+//     removed_item = removeItem_Bounded_Buffer(buffer);
+//     // Insert another element
+//     v4si v4 = {13, 14, 15, 16};
+//     insert_Bounded_Buffer(buffer, v4);
+
+//     // Check if the buffer is empty or full
+//     printf("Buffer empty? %s\n", isBufferEmpty(buffer) ? "Yes" : "No");
+//     printf("Buffer full? %s\n", isBufferFull(buffer) ? "Yes" : "No");
+
+//     // Destroy the buffer
+//     destroy_Bounded_Buffer(buffer);
+
+//     return 0;
+// }
+
 #include <stdio.h>
-#include "bounded_buffer.h"
+#include "unbounded_buffer.h"
 
 int main()
 {
-    // Create a bounded buffer of size 5
-    Bounded_Buffer *buffer = create_Bounded_Buffer(5);
+    Unbounded_Buffer *buffer = create_Unbounded_Buffer();
 
     // Insert some elements into the buffer
-    v4si v1 = {1, 2, 3, 4};
-    insert_Bounded_Buffer(buffer, v1);
+    v4si data1 = {1, 2, 3, 4};
+    v4si data2 = {5, 6, 7, 8};
+    v4si data3 = {9, 10, 11, 12};
+    insert_Unbounded_Buffer(buffer, data1);
+    insert_Unbounded_Buffer(buffer, data2);
+    insert_Unbounded_Buffer(buffer, data3);
 
-    v4si v2 = {5, 6, 7, 8};
-    insert_Bounded_Buffer(buffer, v2);
+    // Check if the buffer is empty
+    bool isEmpty = isBufferEmpty_Unbounded_Buffer(buffer);
+    printf("Is buffer empty? %s\n", (isEmpty ? "Yes" : "No"));
 
-    v4si v3 = {9, 10, 11, 12};
-    insert_Bounded_Buffer(buffer, v3);
+    // Retrieve and print the top item in the buffer
+    v4si topItem = top_Unbounded_Buffer(buffer);
+    printf("Top item: %d %d %d %d\n", topItem[0], topItem[1], topItem[2], topItem[3]);
 
-    // Remove an element from the buffer
-    v4si removed_item = removeItem_Bounded_Buffer(buffer);
-    printf("Removed item: {%d, %d, %d, %d}\n",
-           removed_item[0], removed_item[1], removed_item[2], removed_item[3]);
-    removed_item = removeItem_Bounded_Buffer(buffer);
-    printf("Removed item: {%d, %d, %d, %d}\n",
-           removed_item[0], removed_item[1], removed_item[2], removed_item[3]);
-    removed_item = removeItem_Bounded_Buffer(buffer);
-    printf("Removed item: {%d, %d, %d, %d}\n",
-           removed_item[0], removed_item[1], removed_item[2], removed_item[3]);
-    removed_item = removeItem_Bounded_Buffer(buffer);
-    printf("Removed item: {%d, %d, %d, %d}\n",
-           removed_item[0], removed_item[1], removed_item[2], removed_item[3]);
-    // Insert another element
-    v4si v4 = {13, 14, 15, 16};
-    insert_Bounded_Buffer(buffer, v4);
+    // Remove an item from the buffer
+    v4si removedItem = removeItem_Unbounded_Buffer(buffer);
+    printf("Removed item: %d %d %d %d\n", removedItem[0], removedItem[1], removedItem[2], removedItem[3]);
 
-    // Check if the buffer is empty or full
-    printf("Buffer empty? %s\n", isBufferEmpty(buffer) ? "Yes" : "No");
-    printf("Buffer full? %s\n", isBufferFull(buffer) ? "Yes" : "No");
+    // Check the buffer count
+    printf("Buffer count: %d\n", buffer->count);
 
     // Destroy the buffer
-    destroy_Bounded_Buffer(buffer);
+    v4si top = top_Unbounded_Buffer(buffer);
+    printf("Top item: %d %d %d %d\n", top[0], top[1], top[2], top[3]);
+    v4si top2 = top_Unbounded_Buffer(buffer);
+    printf("Top item: %d %d %d %d\n", top2[0], top2[1], top2[2], top2[3]);
+    destroy_Unbounded_Buffer(buffer);
 
     return 0;
 }

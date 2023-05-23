@@ -1,5 +1,7 @@
 {
     "files.associations": {
-        "bounded_buffer.h": "c"
+        "bounded_buffer.h": "c",
+        "stdio.h": "c",
+        "unbounded_buffer.h": "c"
     }
 }

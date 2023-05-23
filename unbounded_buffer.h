@@ -5,9 +5,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+typedef int v4si __attribute__((vector_size(16)));
+
 typedef struct Node
 {
-    char *data;
+    v4si data;
     struct Node *next;
 } Node;
 
@@ -20,8 +22,8 @@ typedef struct
 
 Unbounded_Buffer *create_Unbounded_Buffer();
 void destroy_Unbounded_Buffer(Unbounded_Buffer *buffer);
-void insert_Unbounded_Buffer(Unbounded_Buffer *buffer, const char *s);
-char *removeItem_Unbounded_Buffer(Unbounded_Buffer *buffer);
+void insert_Unbounded_Buffer(Unbounded_Buffer *buffer, v4si s);
+v4si removeItem_Unbounded_Buffer(Unbounded_Buffer *buffer);
 bool isBufferEmpty_Unbounded_Buffer(const Unbounded_Buffer *buffer);
 
 Unbounded_Buffer *create_Unbounded_Buffer()
@@ -44,10 +46,10 @@ void destroy_Unbounded_Buffer(Unbounded_Buffer *buffer)
     free(buffer);
 }
 
-void insert_Unbounded_Buffer(Unbounded_Buffer *buffer, char *s)
+void insert_Unbounded_Buffer(Unbounded_Buffer *buffer, v4si v)
 {
     Node *newNode = (Node *)malloc(sizeof(Node));
-    newNode->data = s;
+    newNode->data = v;
     newNode->next = NULL;
 
     if (buffer->head == NULL)
@@ -64,15 +66,17 @@ void insert_Unbounded_Buffer(Unbounded_Buffer *buffer, char *s)
     buffer->count++;
 }
 
-char *removeItem_Unbounded_Buffer(Unbounded_Buffer *buffer)
+v4si removeItem_Unbounded_Buffer(Unbounded_Buffer *buffer)
 {
     if (buffer->head == NULL)
     {
-        return NULL;
+        // todo to fix;
+        v4si returnValue = {-1, -1, -1, -1};
+        return returnValue;
     }
 
     Node *temp = buffer->head;
-    char *data = temp->data;
+    v4si data = temp->data;
 
     buffer->head = buffer->head->next;
     buffer->count--;
@@ -84,6 +88,13 @@ char *removeItem_Unbounded_Buffer(Unbounded_Buffer *buffer)
 bool isBufferEmpty_Unbounded_Buffer(const Unbounded_Buffer *buffer)
 {
     return buffer->head == NULL;
+}
+
+v4si top_Unbounded_Buffer(const Unbounded_Buffer *buffer)
+{
+    Node *temp = buffer->head;
+    v4si data = temp->data;
+    return data;
 }
 
 #endif /* UNBOUNDED_BUFFER_H */

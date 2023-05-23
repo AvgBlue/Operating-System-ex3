@@ -77,4 +77,8 @@ v4si removeItem_Bounded_Buffer(Bounded_Buffer *buffer)
     return item;
 }
 
+v4si top_Bounded_Buffer(const Bounded_Buffer *buffer){
+    return buffer->buffer[buffer->front];
+}
+
 #endif /* BOUNDED_BUFFER_H */
