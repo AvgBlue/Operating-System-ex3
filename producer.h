@@ -41,18 +41,6 @@ int getRandomNumber(int min, int max)
     return randomNumber;
 }
 
-char *formatString(int i, const char *type, int j)
-{
-    int bufferSize = snprintf(NULL, 0, "producer %d %s %d", i, type, j) + 1;
-    char *result = (char *)malloc(bufferSize * sizeof(char));
-
-    if (result != NULL)
-    {
-        snprintf(result, bufferSize, "producer %d %s %d", i, type, j);
-    }
-
-    return result;
-}
 
 void startProducer(Producer *producer)
 {
@@ -66,25 +54,25 @@ void startProducer(Producer *producer)
     for (int i = 0; i < producer->numProducts; i++)
     {
         int randomNum = getRandomNumber(1, 3);
-        char *product;
+        v4si product;
         switch (randomNum)
         {
         case 1:
-            product = formatString(producer->id, "SPORTS", S_num++);
+            product = (v4si){producer->id,randomNum,S_num++,0};
             break;
         case 2:
-            product = formatString(producer->id, "WEATHER", W_num++);
+            product = (v4si){producer->id,randomNum,W_num++,0};
             break;
         case 3:
-            product = formatString(producer->id, "NEWS", N_num++);
+            product = (v4si){producer->id,randomNum,N_num++,0};
             break;
         default:
             break;
         };
         insert_Bounded_Buffer(producer->buffer, product);
     }
-    char *Done = (char *)malloc(sizeof(char) * 6);
-    strcpy(Done, "Done");
+    //todo to fix
+    v4si Done = {-99,-99,-99,-99};
     insert_Bounded_Buffer(producer->buffer, Done);
 }
 

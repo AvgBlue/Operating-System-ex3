@@ -39,14 +39,39 @@ void destroyDispatcher(Dispatcher *dispatcher)
 
 void start_Dispatcher(Dispatcher *dispatcher)
 {
+    int doneNum = 0;
     int isAllDone = 0;
-    while (!isAllDone)
+    while (doneNum != dispatcher->bb_list_size)
     {
         isAllDone = 1;
         for (int i = 0; i < dispatcher->bb_list_size; i++)
         {
-            if (!is_Bounded_Buffer_(dispatcher->bb_list[i]))
+            // the buffer is empty and the producer is not done
+            if (isBufferEmpty(dispatcher->bb_list[i]))
             {
+                continue;
+            }
+            // check if the producer is done
+            v4si popValue = removeItem_Bounded_Buffer(dispatcher->bb_list[i]);
+            if (popValue[0] == -99 && popValue[1] == -99 && popValue[2] == -99 && popValue[3] == -99)
+            {
+                doneNum++;
+                continue;
+            }
+            // we send to the unbounded buffers
+            switch (popValue[1])
+            {
+            case 0:
+                insert_Unbounded_Buffer(dispatcher->ubb_S, popValue);
+                break;
+            case 1:
+                insert_Unbounded_Buffer(dispatcher->ubb_W, popValue);
+                break;
+            case 2:
+                insert_Unbounded_Buffer(dispatcher->ubb_N, popValue);
+                break;
+            default:
+                break;
             }
         }
     }

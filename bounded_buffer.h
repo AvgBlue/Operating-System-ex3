@@ -21,6 +21,7 @@ Bounded_Buffer *create_Bounded_Buffer(int size);
 void destroy_Bounded_Buffer(Bounded_Buffer *buffer);
 void insert_Bounded_Buffer(Bounded_Buffer *buffer, v4si v);
 v4si removeItem_Bounded_Buffer(Bounded_Buffer *buffer);
+bool isBufferEmpty(const Bounded_Buffer *buffer);
 
 Bounded_Buffer *create_Bounded_Buffer(int size)
 {
