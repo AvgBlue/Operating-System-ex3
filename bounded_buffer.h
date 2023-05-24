@@ -84,4 +84,30 @@ v4si top_Bounded_Buffer(const Bounded_Buffer *buffer)
     return buffer->buffer[buffer->front];
 }
 
+void print_Bounded_Buffer(const Bounded_Buffer *buffer)
+{
+    printf("Buffer elements: ");
+
+    if (isBufferEmpty(buffer))
+    {
+        printf("Empty");
+    }
+    else
+    {
+        int current = buffer->front;
+        int count = buffer->count;
+
+        while (count > 0)
+        {
+            v4si data = buffer->buffer[current];
+            printf("(%d, %d, %d, %d) ", data[0], data[1], data[2], data[3]);
+
+            current = (current + 1) % buffer->capacity;
+            count--;
+        }
+    }
+
+    printf("\n");
+}
+
 #endif /* BOUNDED_BUFFER_H */

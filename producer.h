@@ -4,9 +4,9 @@
 #include "bounded_buffer.h"
 #include <time.h>
 
-#define SPORTS 0
-#define WEATHER 1
-#define NEWS 2
+#define SPORTS 1
+#define WEATHER 2
+#define NEWS 3
 
 typedef struct
 {
@@ -47,6 +47,7 @@ int getRandomNumber(int min, int max)
 
 void start_Producer(Producer *producer)
 {
+    initializeRandomNumberGenerator();
     // num is 1
     int S_num = 0;
     // num is 2
@@ -60,13 +61,13 @@ void start_Producer(Producer *producer)
         v4si product;
         switch (randomNum)
         {
-        case 1:
+        case SPORTS:
             product = (v4si){producer->id, randomNum, S_num++, 0};
             break;
-        case 2:
+        case WEATHER:
             product = (v4si){producer->id, randomNum, W_num++, 0};
             break;
-        case 3:
+        case NEWS:
             product = (v4si){producer->id, randomNum, N_num++, 0};
             break;
         default:

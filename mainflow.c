@@ -3,6 +3,7 @@
 #include "co_editor.h"
 #include "screen_manager.h"
 #include "filereader.h"
+#include "unbounded_buffer.h"
 
 int main()
 {
@@ -12,16 +13,6 @@ int main()
     int co_editor_queue_size = 0;
 
     readData(filename, producers, num_producers, &co_editor_queue_size);
-    // print
-    printf("num_producers: %d\n", num_producers);
-    printf("co_editor_queue_size: %d\n", co_editor_queue_size);
-    for (int i = 0; i < num_producers; i++)
-    {
-        printf("producer %d:\n", i);
-        printf("    producer_id: %d\n", producers[i]->id);
-        printf("    producer_type: %d\n", producers[i]->numProducts);
-        printf("    producer_delay: %d\n", producers[i]->queueSize);
-    }
 
     Dispatcher *dispatcher = createDispatcher(producers, num_producers);
     Screen_Manager *screen_manager = createScreenManager(co_editor_queue_size);
@@ -29,7 +20,6 @@ int main()
     co_editors[0] = createCoEditor(screen_manager->buffer, dispatcher->ubb_N);
     co_editors[1] = createCoEditor(screen_manager->buffer, dispatcher->ubb_W);
     co_editors[2] = createCoEditor(screen_manager->buffer, dispatcher->ubb_S);
-
     // start producers
     for (int i = 0; i < num_producers; i++)
     {
@@ -38,8 +28,9 @@ int main()
     printf("All producers are done.\n");
     // start dispatcher
     start_Dispatcher(dispatcher);
-    printf("Dispatcher is done.\n");
-    // start co-editors
+    printf("S size is %d\n", dispatcher->ubb_S->count);
+    printf("N size is %d\n", dispatcher->ubb_N->count);
+    printf("W size is %d\n", dispatcher->ubb_W->count);
     for (int i = 0; i < 3; i++)
     {
         start_Co_Editor(co_editors[i]);

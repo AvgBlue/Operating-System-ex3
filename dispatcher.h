@@ -59,24 +59,24 @@ void start_Dispatcher(Dispatcher *dispatcher)
             // we send to the unbounded buffers
             switch (popValue[1])
             {
-            case 0:
+            case SPORTS:
                 insert_Unbounded_Buffer(dispatcher->ubb_S, popValue);
                 break;
-            case 1:
+            case WEATHER:
                 insert_Unbounded_Buffer(dispatcher->ubb_W, popValue);
                 break;
-            case 2:
+            case NEWS:
                 insert_Unbounded_Buffer(dispatcher->ubb_N, popValue);
                 break;
             default:
                 break;
             }
-            v4si done = {-99, -99, -99, -99};
-            insert_Unbounded_Buffer(dispatcher->ubb_S, done);
-            insert_Unbounded_Buffer(dispatcher->ubb_W, done);
-            insert_Unbounded_Buffer(dispatcher->ubb_N, done);
         }
     }
+    v4si done = {-99, -99, -99, -99};
+    insert_Unbounded_Buffer(dispatcher->ubb_S, done);
+    insert_Unbounded_Buffer(dispatcher->ubb_W, done);
+    insert_Unbounded_Buffer(dispatcher->ubb_N, done);
 }
 
 #endif /* DISPATCHER_H */

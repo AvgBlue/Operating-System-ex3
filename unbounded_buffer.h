@@ -97,4 +97,27 @@ v4si top_Unbounded_Buffer(const Unbounded_Buffer *buffer)
     return data;
 }
 
+void print_Unbounded_Buffer(const Unbounded_Buffer *buffer)
+{
+    printf("Buffer elements: ");
+
+    if (isBufferEmpty_Unbounded_Buffer(buffer))
+    {
+        printf("Empty");
+    }
+    else
+    {
+        Node *current = buffer->head;
+
+        while (current != NULL)
+        {
+            v4si data = current->data;
+            printf("(%d, %d, %d, %d) ", data[0], data[1], data[2], data[3]);
+            current = current->next;
+        }
+    }
+
+    printf("\n");
+}
+
 #endif /* UNBOUNDED_BUFFER_H */
