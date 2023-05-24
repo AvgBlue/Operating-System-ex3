@@ -12,6 +12,16 @@ int main()
     int co_editor_queue_size = 0;
 
     readData(filename, producers, num_producers, &co_editor_queue_size);
+    // print
+    printf("num_producers: %d\n", num_producers);
+    printf("co_editor_queue_size: %d\n", co_editor_queue_size);
+    for (int i = 0; i < num_producers; i++)
+    {
+        printf("producer %d:\n", i);
+        printf("    producer_id: %d\n", producers[i]->id);
+        printf("    producer_type: %d\n", producers[i]->numProducts);
+        printf("    producer_delay: %d\n", producers[i]->queueSize);
+    }
 
     Dispatcher *dispatcher = createDispatcher(producers, num_producers);
     Screen_Manager *screen_manager = createScreenManager(co_editor_queue_size);

@@ -36,13 +36,13 @@ void start_Screen_Managar(Screen_Manager *screenManager)
         switch (popValue[1])
         {
         case SPORTS:
-            printf("Producer %d  SPORTS  %d", popValue[0], popValue[2]);
+            printf("Producer %d  SPORTS  %d\n", popValue[0], popValue[2]);
             break;
         case WEATHER:
-            printf("Producer %d  WEATHER  %d", popValue[0], popValue[2]);
+            printf("Producer %d  WEATHER  %d\n", popValue[0], popValue[2]);
             break;
         case NEWS:
-            printf("Producer %d  NEWS  %d", popValue[0], popValue[2]);
+            printf("Producer %d  NEWS  %d\n", popValue[0], popValue[2]);
             break;
         default:
             break;

@@ -1,6 +1,6 @@
 #ifndef BOUNDED_BUFFER_H
 #define BOUNDED_BUFFER_H
-
+#include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
@@ -59,11 +59,12 @@ void insert_Bounded_Buffer(Bounded_Buffer *buffer, v4si v)
     }
     buffer->rear = (buffer->rear + 1) % buffer->capacity;
     buffer->buffer[buffer->rear] = v;
-    buffer->count++;
+    buffer->count = buffer->count + 1;
 }
 
 v4si removeItem_Bounded_Buffer(Bounded_Buffer *buffer)
 {
+
     if (isBufferEmpty(buffer))
     {
         // Buffer is empty, nothing to remove
@@ -78,7 +79,8 @@ v4si removeItem_Bounded_Buffer(Bounded_Buffer *buffer)
     return item;
 }
 
-v4si top_Bounded_Buffer(const Bounded_Buffer *buffer){
+v4si top_Bounded_Buffer(const Bounded_Buffer *buffer)
+{
     return buffer->buffer[buffer->front];
 }
 
