@@ -4,12 +4,16 @@
 #include "bounded_buffer.h"
 #include <time.h>
 
+#define SPORTS 0
+#define WEATHER 1
+#define NEWS 2
+
 typedef struct
 {
     int id;
     int numProducts;
     int queueSize;
-    Bounded_Buffer *buffer;
+    Bounded_Buffer *buffer; // owner
 } Producer;
 
 Producer *createProduct(int producerId, int productsNum, int size)

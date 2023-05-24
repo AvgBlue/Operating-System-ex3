@@ -1,6 +1,7 @@
 #ifndef SCREEN_MANAGER_H
 #define SCREEN_MANAGER_H
 #include "bounded_buffer.h"
+#include "producer.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -34,13 +35,13 @@ void start_Screen_Managar(Screen_Manager *screenManager)
         }
         switch (popValue[1])
         {
-        case 0:
+        case SPORTS:
             printf("Producer %d  SPORTS  %d", popValue[0], popValue[2]);
             break;
-        case 1:
+        case WEATHER:
             printf("Producer %d  WEATHER  %d", popValue[0], popValue[2]);
             break;
-        case 2:
+        case NEWS:
             printf("Producer %d  NEWS  %d", popValue[0], popValue[2]);
             break;
         default:
