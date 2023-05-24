@@ -41,7 +41,6 @@ int getRandomNumber(int min, int max)
     return randomNumber;
 }
 
-
 void startProducer(Producer *producer)
 {
     // num is 1
@@ -58,21 +57,21 @@ void startProducer(Producer *producer)
         switch (randomNum)
         {
         case 1:
-            product = (v4si){producer->id,randomNum,S_num++,0};
+            product = (v4si){producer->id, randomNum, S_num++, 0};
             break;
         case 2:
-            product = (v4si){producer->id,randomNum,W_num++,0};
+            product = (v4si){producer->id, randomNum, W_num++, 0};
             break;
         case 3:
-            product = (v4si){producer->id,randomNum,N_num++,0};
+            product = (v4si){producer->id, randomNum, N_num++, 0};
             break;
         default:
             break;
         };
         insert_Bounded_Buffer(producer->buffer, product);
     }
-    //todo to fix
-    v4si Done = {-99,-99,-99,-99};
+    // todo to fix
+    v4si Done = {-99, -99, -99, -99};
     insert_Bounded_Buffer(producer->buffer, Done);
 }
 
