@@ -1,6 +1,6 @@
 #ifndef DISPATCHER_H
 #define DISPATCHER_H
-
+#include <stdio.h>
 #include "bounded_buffer.h"
 #include "unbounded_buffer.h"
 #include "producer.h"
@@ -44,6 +44,7 @@ void start_Dispatcher(Dispatcher *dispatcher)
     {
         for (int i = 0; i < dispatcher->bb_list_size; i++)
         {
+
             // the buffer is empty and the producer is not done
             if (isBufferEmpty(dispatcher->bb_list[i]))
             {
@@ -51,8 +52,11 @@ void start_Dispatcher(Dispatcher *dispatcher)
             }
             // check if the producer is done
             v4si popValue = removeItem_Bounded_Buffer(dispatcher->bb_list[i]);
+            printf("popvalue is %d %d %d %d\n", popValue[0], popValue[1], popValue[2], popValue[3]);
             if (popValue[0] == -99 && popValue[1] == -99 && popValue[2] == -99 && popValue[3] == -99)
             {
+                printf("Dispatcher: producer %d is done.\n", i);
+                printf("still %d producers are not done.\n", dispatcher->bb_list_size - doneNum - 1);
                 doneNum++;
                 continue;
             }
@@ -60,12 +64,15 @@ void start_Dispatcher(Dispatcher *dispatcher)
             switch (popValue[1])
             {
             case 0:
+                printf("0\n");
                 insert_Unbounded_Buffer(dispatcher->ubb_S, popValue);
                 break;
             case 1:
+                printf("1\n");
                 insert_Unbounded_Buffer(dispatcher->ubb_W, popValue);
                 break;
             case 2:
+                printf("2\n");
                 insert_Unbounded_Buffer(dispatcher->ubb_N, popValue);
                 break;
             default:

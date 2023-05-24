@@ -17,6 +17,11 @@ Co_Editor *createCoEditor(Bounded_Buffer *b, Unbounded_Buffer *u)
     return coEditor;
 }
 
+void destroyCoEditor(Co_Editor *coEditor)
+{
+    free(coEditor);
+}
+
 void start_Co_Editor(Co_Editor *coEditor)
 {
     while (true)

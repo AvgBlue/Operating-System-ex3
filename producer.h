@@ -45,7 +45,7 @@ int getRandomNumber(int min, int max)
     return randomNumber;
 }
 
-void startProducer(Producer *producer)
+void start_Producer(Producer *producer)
 {
     // num is 1
     int S_num = 0;
