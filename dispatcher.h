@@ -7,10 +7,10 @@
 
 typedef struct
 {
-    Unbounded_Buffer *ubb_S;
-    Unbounded_Buffer *ubb_N;
-    Unbounded_Buffer *ubb_W;
-    Bounded_Buffer **bb_list;
+    Unbounded_Buffer *ubb_S;  // owenr
+    Unbounded_Buffer *ubb_N;  // owenr
+    Unbounded_Buffer *ubb_W;  // owner
+    Bounded_Buffer **bb_list; // lender
     int bb_list_size;
 } Dispatcher;
 
@@ -40,10 +40,8 @@ void destroyDispatcher(Dispatcher *dispatcher)
 void start_Dispatcher(Dispatcher *dispatcher)
 {
     int doneNum = 0;
-    int isAllDone = 0;
     while (doneNum != dispatcher->bb_list_size)
     {
-        isAllDone = 1;
         for (int i = 0; i < dispatcher->bb_list_size; i++)
         {
             // the buffer is empty and the producer is not done
@@ -73,6 +71,10 @@ void start_Dispatcher(Dispatcher *dispatcher)
             default:
                 break;
             }
+            v4si done = {-99, -99, -99, -99};
+            insert_Unbounded_Buffer(dispatcher->ubb_S, done);
+            insert_Unbounded_Buffer(dispatcher->ubb_W, done);
+            insert_Unbounded_Buffer(dispatcher->ubb_N, done);
         }
     }
 }

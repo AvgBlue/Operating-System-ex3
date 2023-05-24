@@ -1,10 +1,12 @@
 #ifndef SCREEN_MANAGER_H
 #define SCREEN_MANAGER_H
 #include "bounded_buffer.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 typedef struct
 {
-    Bounded_Buffer *buffer;
+    Bounded_Buffer *buffer; // owner
 } Screen_Manager;
 
 Screen_Manager *createScreenManager(int bufferSize)
@@ -18,6 +20,33 @@ void destroyScreenManager(Screen_Manager *screenManager)
 {
     destroy_Bounded_Buffer(screenManager->buffer);
     free(screenManager);
+}
+
+void start_Screen_Managar(Screen_Manager *screenManager)
+{
+    while (true)
+    {
+        v4si popValue = removeItem_Bounded_Buffer(screenManager->buffer);
+        if (popValue[0] == -99 && popValue[1] == -99 && popValue[2] == -99 && popValue[3] == -99)
+        {
+            printf("DONE\n");
+            break;
+        }
+        switch (popValue[1])
+        {
+        case 0:
+            printf("Producer %d  SPORTS  %d", popValue[0], popValue[2]);
+            break;
+        case 1:
+            printf("Producer %d  WEATHER  %d", popValue[0], popValue[2]);
+            break;
+        case 2:
+            printf("Producer %d  NEWS  %d", popValue[0], popValue[2]);
+            break;
+        default:
+            break;
+        }
+    }
 }
 
 #endif /* SCREEN_MANAGER_H */
