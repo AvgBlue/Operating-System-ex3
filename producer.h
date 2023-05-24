@@ -3,6 +3,7 @@
 
 #include "bounded_buffer.h"
 #include <time.h>
+#include <pthread.h>
 
 #define SPORTS 1
 #define WEATHER 2
@@ -10,15 +11,21 @@
 
 typedef struct
 {
+    void *(*run)(void *arg);
     int id;
     int numProducts;
     int queueSize;
     Bounded_Buffer *buffer; // owner
 } Producer;
 
+Producer *createProduct(int producerId, int productsNum, int size);
+void destroyProducer(Producer *producer);
+void *run_Producer(void *arg);
+
 Producer *createProduct(int producerId, int productsNum, int size)
 {
     Producer *producer = (Producer *)malloc(sizeof(Producer));
+    producer->run = run_Producer;
     producer->id = producerId;
     producer->numProducts = productsNum;
     producer->queueSize = size;
@@ -78,6 +85,13 @@ void start_Producer(Producer *producer)
     // todo to fix
     v4si Done = {-99, -99, -99, -99};
     insert_Bounded_Buffer(producer->buffer, Done);
+}
+
+void *run_Producer(void *arg)
+{
+    Producer *producer = (Producer *)arg;
+    start_Producer(producer);
+    pthread_exit(NULL);
 }
 
 #endif /* PRODUCER_H */

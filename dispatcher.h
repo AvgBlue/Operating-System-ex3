@@ -4,9 +4,11 @@
 #include "bounded_buffer.h"
 #include "unbounded_buffer.h"
 #include "producer.h"
+#include <pthread.h>
 
 typedef struct
 {
+    void *(*run)(void *arg);
     Unbounded_Buffer *ubb_S;  // owenr
     Unbounded_Buffer *ubb_N;  // owenr
     Unbounded_Buffer *ubb_W;  // owner
@@ -14,9 +16,14 @@ typedef struct
     int bb_list_size;
 } Dispatcher;
 
+Dispatcher *createDispatcher(Producer **producers, int producersNum);
+void destroyDispatcher(Dispatcher *dispatcher);
+void *run_Dispatcher(void *arg);
+
 Dispatcher *createDispatcher(Producer **producers, int producersNum)
 {
     Dispatcher *dispatcher = (Dispatcher *)malloc(sizeof(Dispatcher));
+    dispatcher->run = run_Dispatcher;
     dispatcher->ubb_S = create_Unbounded_Buffer();
     dispatcher->ubb_N = create_Unbounded_Buffer();
     dispatcher->ubb_W = create_Unbounded_Buffer();
@@ -77,6 +84,13 @@ void start_Dispatcher(Dispatcher *dispatcher)
     insert_Unbounded_Buffer(dispatcher->ubb_S, done);
     insert_Unbounded_Buffer(dispatcher->ubb_W, done);
     insert_Unbounded_Buffer(dispatcher->ubb_N, done);
+}
+
+void *run_Dispatcher(void *arg)
+{
+    Dispatcher *dispatcher = (Dispatcher *)arg;
+    start_Dispatcher(dispatcher);
+    pthread_exit(NULL);
 }
 
 #endif /* DISPATCHER_H */

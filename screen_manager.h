@@ -4,15 +4,22 @@
 #include "producer.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 typedef struct
 {
+    void *(*run)(void *arg);
     Bounded_Buffer *buffer; // owner
 } Screen_Manager;
+
+Screen_Manager *createScreenManager(int bufferSize);
+void destroyScreenManager(Screen_Manager *screenManager);
+void *run_Screen_Manager(void *arg);
 
 Screen_Manager *createScreenManager(int bufferSize)
 {
     Screen_Manager *screenManager = (Screen_Manager *)malloc(sizeof(Screen_Manager));
+    screenManager->run = run_Screen_Manager;
     screenManager->buffer = create_Bounded_Buffer(bufferSize);
     return screenManager;
 }
@@ -52,6 +59,12 @@ void start_Screen_Managar(Screen_Manager *screenManager)
         }
     }
     printf("DONE\n");
+}
+
+void *run_Screen_Manager(void *arg)
+{
+    Screen_Manager *screenManager = (Screen_Manager *)arg;
+    start_Screen_Managar(screenManager);
 }
 
 #endif /* SCREEN_MANAGER_H */

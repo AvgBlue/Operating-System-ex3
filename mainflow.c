@@ -4,6 +4,10 @@
 #include "screen_manager.h"
 #include "filereader.h"
 #include "unbounded_buffer.h"
+#include "runnable.h"
+#include <pthread.h>
+
+// gcc -pthread mainflow.c
 
 int main()
 {
@@ -20,25 +24,40 @@ int main()
     co_editors[0] = createCoEditor(screen_manager->buffer, dispatcher->ubb_N);
     co_editors[1] = createCoEditor(screen_manager->buffer, dispatcher->ubb_W);
     co_editors[2] = createCoEditor(screen_manager->buffer, dispatcher->ubb_S);
+
+    Runnable **runnable = malloc((5 + num_producers) * sizeof(Runnable *));
+    runnable[0] = (Runnable *)dispatcher;
+    runnable[1] = (Runnable *)screen_manager;
+    runnable[2] = (Runnable *)co_editors[0];
+    runnable[3] = (Runnable *)co_editors[1];
+    runnable[4] = (Runnable *)co_editors[2];
+    for (int i = 0; i < num_producers; i++)
+    {
+        runnable[5 + i] = (Runnable *)producers[i];
+    }
+    pthread_t *thread_id = malloc((5 + num_producers) * sizeof(pthread_t));
+    for (int i = 0; i < 5 + num_producers; i++)
+    {
+        pthread_create(&thread_id[i], NULL, runnable[i]->run, (void *)runnable[i]);
+    }
+    for (int i = 0; i < 5 + num_producers; i++)
+    {
+        pthread_join(thread_id[i], NULL);
+    }
+
     // start producers
     for (int i = 0; i < num_producers; i++)
     {
         start_Producer(producers[i]);
     }
-    printf("All producers are done.\n");
     // start dispatcher
     start_Dispatcher(dispatcher);
-    printf("S size is %d\n", dispatcher->ubb_S->count);
-    printf("N size is %d\n", dispatcher->ubb_N->count);
-    printf("W size is %d\n", dispatcher->ubb_W->count);
     for (int i = 0; i < 3; i++)
     {
         start_Co_Editor(co_editors[i]);
     }
-    printf("All co-editors are done.\n");
     // start screen manager
     start_Screen_Managar(screen_manager);
-    printf("Screen manager is done.\n");
 
     // destroy dispatcher
     destroyDispatcher(dispatcher);
