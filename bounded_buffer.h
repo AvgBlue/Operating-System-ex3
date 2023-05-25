@@ -57,81 +57,35 @@ void destroy_Bounded_Buffer(Bounded_Buffer *buffer)
     free(buffer);
 }
 
-// void insert_Bounded_Buffer(Bounded_Buffer *buffer, v4si v)
-// {
-//     if (isBufferFull(buffer))
-//     {
-//         // Buffer is full, cannot insert
-//         return;
-//     }
-//     buffer->rear = (buffer->rear + 1) % buffer->capacity;
-//     buffer->buffer[buffer->rear] = v;
-//     buffer->count = buffer->count + 1;
-// }
-
 void insert_Bounded_Buffer(Bounded_Buffer *buffer, v4si v)
 {
-    sem_wait(&(buffer->empty));        // Wait for an empty slot
-    sem_wait(&(buffer->bufferAccess)); // Gain exclusive access to buffer
-
-    // if (isBufferFull(buffer)) {
-    //     // Buffer is full, release semaphore and return error value
-    //     sem_post(&(buffer->bufferAccess));
-    //     sem_post(&(buffer->empty));
-    //     return;
-    // }
+    sem_wait(&(buffer->empty));
+    sem_wait(&(buffer->bufferAccess));
 
     buffer->rear = (buffer->rear + 1) % buffer->capacity;
     buffer->buffer[buffer->rear] = v;
     buffer->count++;
 
-    sem_post(&(buffer->bufferAccess)); // Release buffer access semaphore
-    sem_post(&(buffer->full));         // Signal occupied slot
+    sem_post(&(buffer->bufferAccess));
+    sem_post(&(buffer->full));
 }
-
-// v4si removeItem_Bounded_Buffer(Bounded_Buffer *buffer)
-// {
-
-//     if (isBufferEmpty(buffer))
-//     {
-//         // Buffer is empty, nothing to remove
-//         v4si returnValue = {ERROR_VALUE, ERROR_VALUE, ERROR_VALUE, ERROR_VALUE};
-//         return returnValue;
-//     }
-
-//     v4si item = buffer->buffer[buffer->front];
-//     buffer->front = (buffer->front + 1) % buffer->capacity;
-//     buffer->count--;
-
-//     return item;
-// }
 
 v4si removeItem_Bounded_Buffer(Bounded_Buffer *buffer)
 {
     if (sem_trywait(&(buffer->full)) != 0)
     {
-        // Unable to acquire the semaphore, buffer is empty, return error value
         v4si returnValue = {ERROR_VALUE, ERROR_VALUE, ERROR_VALUE, ERROR_VALUE};
         return returnValue;
     }
 
-    sem_wait(&(buffer->bufferAccess)); // Gain exclusive access to buffer
-
-    // if (isBufferEmpty(buffer))
-    // {
-    //     // Buffer is empty, release semaphore and return error value
-    //     sem_post(&(buffer->bufferAccess));
-    //     sem_post(&(buffer->full));
-    //     v4si returnValue = {ERROR_VALUE, ERROR_VALUE, ERROR_VALUE, ERROR_VALUE};
-    //     return returnValue;
-    // }
+    sem_wait(&(buffer->bufferAccess));
 
     v4si item = buffer->buffer[buffer->front];
     buffer->front = (buffer->front + 1) % buffer->capacity;
     buffer->count--;
 
-    sem_post(&(buffer->bufferAccess)); // Release buffer access semaphore
-    sem_post(&(buffer->empty));        // Signal empty slot
+    sem_post(&(buffer->bufferAccess));
+    sem_post(&(buffer->empty));
 
     return item;
 }

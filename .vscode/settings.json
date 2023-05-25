@@ -4,6 +4,7 @@
         "stdio.h": "c",
         "unbounded_buffer.h": "c",
         "co_editor.h": "c",
-        "producer.h": "c"
+        "producer.h": "c",
+        "stdlib.h": "c"
     }
 }
