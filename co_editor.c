@@ -3,6 +3,10 @@
 Co_Editor *createCoEditor(Bounded_Buffer *b, Unbounded_Buffer *u)
 {
     Co_Editor *coEditor = (Co_Editor *)malloc(sizeof(Co_Editor));
+    if (coEditor == NULL)
+    {
+        return NULL;
+    }
     coEditor->run = run_Co_Editor;
     coEditor->bbOut = b;
     coEditor->ubIn = u;
