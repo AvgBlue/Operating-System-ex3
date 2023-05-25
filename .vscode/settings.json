@@ -5,6 +5,7 @@
         "unbounded_buffer.h": "c",
         "co_editor.h": "c",
         "producer.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "screen_manager.h": "c"
     }
 }

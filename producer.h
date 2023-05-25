@@ -2,6 +2,7 @@
 #define PRODUCER_H
 
 #include "bounded_buffer.h"
+#include <pthread.h>
 
 #define SPORTS 1
 #define WEATHER 2

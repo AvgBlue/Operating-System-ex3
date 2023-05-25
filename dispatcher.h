@@ -2,6 +2,7 @@
 #define DISPATCHER_H
 #include "unbounded_buffer.h"
 #include "producer.h"
+#include <pthread.h>
 
 typedef struct
 {

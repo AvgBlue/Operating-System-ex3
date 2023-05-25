@@ -47,4 +47,5 @@ void *run_Screen_Manager(void *arg)
 {
     Screen_Manager *screenManager = (Screen_Manager *)arg;
     start_Screen_Managar(screenManager);
+    pthread_exit(NULL);
 }

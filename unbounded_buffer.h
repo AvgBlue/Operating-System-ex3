@@ -3,6 +3,7 @@
 
 #include <stdbool.h>
 #include <stdlib.h>
+#include <semaphore.h>
 
 typedef int v4si __attribute__((vector_size(16)));
 #define ERROR_VALUE -1
