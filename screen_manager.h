@@ -36,8 +36,6 @@ void start_Screen_Managar(Screen_Manager *screenManager)
     while (counter != 3)
     {
         v4si popValue = removeItem_Bounded_Buffer(screenManager->buffer);
-        // print popvalue
-        // printf("popvalue: %d %d %d %d\n", popValue[0], popValue[1], popValue[2], popValue[3]);
         if (popValue[0] == -99 && popValue[1] == -99 && popValue[2] == -99 && popValue[3] == -99)
         {
             counter++;

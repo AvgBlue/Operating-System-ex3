@@ -51,11 +51,6 @@ void start_Dispatcher(Dispatcher *dispatcher)
     {
         for (int i = 0; i < dispatcher->bb_list_size; i++)
         {
-            // the buffer is empty and the producer is not done
-            if (isBufferEmpty(dispatcher->bb_list[i]))
-            {
-                continue;
-            }
             // check if the producer is done
             v4si popValue = removeItem_Bounded_Buffer(dispatcher->bb_list[i]);
             if (popValue[0] == -99 && popValue[1] == -99 && popValue[2] == -99 && popValue[3] == -99)

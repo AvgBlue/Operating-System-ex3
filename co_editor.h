@@ -34,7 +34,10 @@ void start_Co_Editor(Co_Editor *coEditor)
     while (true)
     {
         v4si popValue = removeItem_Unbounded_Buffer(coEditor->ubIn);
-
+        if (popValue[0] == ERROR_VALUE && popValue[1] == ERROR_VALUE && popValue[2] == ERROR_VALUE && popValue[3] == ERROR_VALUE)
+        {
+            continue;
+        }
         insert_Bounded_Buffer(coEditor->bbOut, popValue);
         if (popValue[0] == -99 && popValue[1] == -99 && popValue[2] == -99 && popValue[3] == -99)
         {
