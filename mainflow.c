@@ -44,21 +44,13 @@ int main()
     {
         pthread_join(thread_id[i], NULL);
     }
-
-    // start producers
-    for (int i = 0; i < num_producers; i++)
-    {
-        start_Producer(producers[i]);
-    }
-    // start dispatcher
-    start_Dispatcher(dispatcher);
+    // destroy for screen_manager
+    destroyScreenManager(screen_manager);
+    // destroy for co_editors
     for (int i = 0; i < 3; i++)
     {
-        start_Co_Editor(co_editors[i]);
+        destroyCoEditor(co_editors[i]);
     }
-    // start screen manager
-    start_Screen_Managar(screen_manager);
-
     // destroy dispatcher
     destroyDispatcher(dispatcher);
     // destroy for producers
@@ -67,6 +59,8 @@ int main()
         destroyProducer(producers[i]);
     }
     free(producers);
+    free(co_editors);
+    free(runnable);
 
     return 0;
 }
