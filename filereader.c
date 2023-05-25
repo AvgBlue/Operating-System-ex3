@@ -33,16 +33,44 @@ void readData(char *filename, Producer **producers, int num_producers, int *co_e
         exit(1);
     }
 
+    int result; // Variable to store the return value of fscanf
+
     for (int i = 0; i < num_producers; i++)
     {
         int producerId, productsNum, queueSize;
-        fscanf(fileptr, "%d", &producerId);
-        fscanf(fileptr, "%d", &productsNum);
-        fscanf(fileptr, "%d", &queueSize);
+        result = fscanf(fileptr, "%d", &producerId);
+        if (result != 1)
+        {
+            printf("Failed to read producerId from file.\n");
+            fclose(fileptr);
+            exit(1);
+        }
+
+        result = fscanf(fileptr, "%d", &productsNum);
+        if (result != 1)
+        {
+            printf("Failed to read productsNum from file.\n");
+            fclose(fileptr);
+            exit(1);
+        }
+
+        result = fscanf(fileptr, "%d", &queueSize);
+        if (result != 1)
+        {
+            printf("Failed to read queueSize from file.\n");
+            fclose(fileptr);
+            exit(1);
+        }
+
         producers[i] = createProduct(producerId, productsNum, queueSize);
     }
 
-    fscanf(fileptr, "%d", co_editor_queue_size);
-
+    result = fscanf(fileptr, "%d", co_editor_queue_size);
+    if (result != 1)
+    {
+        printf("Failed to read co_editor_queue_size from file.\n");
+        fclose(fileptr);
+        exit(1);
+    }
     fclose(fileptr);
 }

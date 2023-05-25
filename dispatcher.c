@@ -3,17 +3,46 @@
 Dispatcher *createDispatcher(Producer **producers, int producersNum)
 {
     Dispatcher *dispatcher = (Dispatcher *)malloc(sizeof(Dispatcher));
+    if (dispatcher == NULL)
+    {
+        return NULL;
+    }
     dispatcher->run = run_Dispatcher;
     dispatcher->ubb_S = create_Unbounded_Buffer();
+    if (dispatcher->ubb_S == NULL)
+    {
+        goto ubb_S_fail;
+    }
     dispatcher->ubb_N = create_Unbounded_Buffer();
+    if (dispatcher->ubb_N == NULL)
+    {
+        goto ubb_N_fail;
+    }
     dispatcher->ubb_W = create_Unbounded_Buffer();
+    if (dispatcher->ubb_N == NULL)
+    {
+        goto ubb_W_fail;
+    }
     dispatcher->bb_list_size = producersNum;
     dispatcher->bb_list = (Bounded_Buffer **)malloc(sizeof(Bounded_Buffer *) * producersNum);
+    if (dispatcher->bb_list == NULL)
+    {
+        goto bb_list_fail;
+    }
     for (int i = 0; i < producersNum; i++)
     {
         dispatcher->bb_list[i] = producers[i]->buffer;
     }
     return dispatcher;
+bb_list_fail:
+    destroy_Unbounded_Buffer(dispatcher->ubb_W);
+ubb_W_fail:
+    destroy_Unbounded_Buffer(dispatcher->ubb_N);
+ubb_N_fail:
+    destroy_Unbounded_Buffer(dispatcher->ubb_S);
+ubb_S_fail:
+    free(dispatcher);
+    return NULL;
 };
 
 void destroyDispatcher(Dispatcher *dispatcher)

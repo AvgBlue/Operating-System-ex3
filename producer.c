@@ -4,11 +4,20 @@
 Producer *createProduct(int producerId, int productsNum, int size)
 {
     Producer *producer = (Producer *)malloc(sizeof(Producer));
+    if (producer == NULL)
+    {
+        return NULL;
+    }
     producer->run = run_Producer;
     producer->id = producerId;
     producer->numProducts = productsNum;
     producer->queueSize = size;
     producer->buffer = create_Bounded_Buffer(size);
+    if (producer->buffer == NULL)
+    {
+        free(producer);
+        return NULL;
+    }
     return producer;
 }
 

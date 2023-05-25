@@ -3,6 +3,10 @@
 Unbounded_Buffer *create_Unbounded_Buffer()
 {
     Unbounded_Buffer *buffer = (Unbounded_Buffer *)malloc(sizeof(Unbounded_Buffer));
+    if (buffer == NULL)
+    {
+        return NULL;
+    }
     buffer->head = NULL;
     buffer->tail = NULL;
     buffer->count = 0;

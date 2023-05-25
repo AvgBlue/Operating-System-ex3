@@ -1,5 +1,28 @@
 #include "bounded_buffer.h"
 
+Bounded_Buffer *create_Bounded_Buffer(int size)
+{
+    Bounded_Buffer *buffer = (Bounded_Buffer *)malloc(sizeof(Bounded_Buffer));
+    if (buffer == NULL)
+    {
+        return NULL;
+    }
+    buffer->buffer = (v4si *)malloc(sizeof(v4si) * size);
+    if (buffer->buffer == NULL)
+    {
+        free(buffer);
+        return NULL;
+    }
+    buffer->capacity = size;
+    buffer->front = 0;
+    buffer->rear = -1;
+    buffer->count = 0;
+    sem_init(&(buffer->empty), 0, size);     // Initialize empty slots to capacity
+    sem_init(&(buffer->full), 0, 0);         // Initialize occupied slots to 0
+    sem_init(&(buffer->bufferAccess), 0, 1); // Initialize buffer access semaphore
+    return buffer;
+}
+
 void destroy_Bounded_Buffer(Bounded_Buffer *buffer)
 {
     free(buffer->buffer);

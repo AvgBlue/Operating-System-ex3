@@ -1,10 +1,10 @@
 # Compiler
 CC = gcc
-CFLAGS = -Wall -Wextra -g
+CFLAGS = -O3
 LDFLAGS = -pthread
 
 # Source files
-SRCS = main.c producer.c filereader.c co_editor.c dispatcher.c screen_manager.c unbounded_buffer.c
+SRCS = main.c producer.c filereader.c co_editor.c dispatcher.c screen_manager.c unbounded_buffer.c bounded_buffer.c
 HEADERS = bounded_buffer.h co_editor.h dispatcher.h filereader.h producer.h runnable.h screen_manager.h unbounded_buffer.h
 
 # Object files
@@ -24,7 +24,7 @@ $(EXEC): $(OBJS)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 run: $(EXEC)
-	./$(EXEC)
+	./$(EXEC) conf.txt
 
 clean:
 	rm -f $(OBJS) $(EXEC)

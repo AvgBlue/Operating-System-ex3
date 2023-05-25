@@ -3,8 +3,17 @@
 Screen_Manager *createScreenManager(int bufferSize)
 {
     Screen_Manager *screenManager = (Screen_Manager *)malloc(sizeof(Screen_Manager));
+    if (screenManager == NULL)
+    {
+        return NULL;
+    }
     screenManager->run = run_Screen_Manager;
     screenManager->buffer = create_Bounded_Buffer(bufferSize);
+    if (screenManager->buffer == NULL)
+    {
+        free(screenManager);
+        return NULL;
+    }
     return screenManager;
 }
 

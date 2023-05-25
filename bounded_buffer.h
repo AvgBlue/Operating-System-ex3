@@ -27,18 +27,4 @@ void insert_Bounded_Buffer(Bounded_Buffer *buffer, v4si v);
 v4si removeItem_Bounded_Buffer(Bounded_Buffer *buffer);
 bool isBufferEmpty(const Bounded_Buffer *buffer);
 
-Bounded_Buffer *create_Bounded_Buffer(int size)
-{
-    Bounded_Buffer *buffer = (Bounded_Buffer *)malloc(sizeof(Bounded_Buffer));
-    buffer->buffer = (v4si *)malloc(sizeof(v4si) * size);
-    buffer->capacity = size;
-    buffer->front = 0;
-    buffer->rear = -1;
-    buffer->count = 0;
-    sem_init(&(buffer->empty), 0, size);     // Initialize empty slots to capacity
-    sem_init(&(buffer->full), 0, 0);         // Initialize occupied slots to 0
-    sem_init(&(buffer->bufferAccess), 0, 1); // Initialize buffer access semaphore
-    return buffer;
-}
-
 #endif /* BOUNDED_BUFFER_H */
