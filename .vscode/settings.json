@@ -6,6 +6,7 @@
         "co_editor.h": "c",
         "producer.h": "c",
         "stdlib.h": "c",
-        "screen_manager.h": "c"
+        "screen_manager.h": "c",
+        "filereader.h": "c"
     }
 }

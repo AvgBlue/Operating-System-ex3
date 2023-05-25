@@ -23,14 +23,14 @@ int linesCount(char *filename)
     return count_lines;
 }
 
-void readData(char *filename, Producer **producers, int num_producers, int *co_editor_queue_size)
+int readData(char *filename, Producer **producers, int num_producers, int *co_editor_queue_size)
 {
     FILE *fileptr;
     fileptr = fopen(filename, "r");
     if (fileptr == NULL)
     {
         printf("Failed to open the file.\n");
-        exit(1);
+        return 1;
     }
 
     int result; // Variable to store the return value of fscanf
@@ -43,7 +43,7 @@ void readData(char *filename, Producer **producers, int num_producers, int *co_e
         {
             printf("Failed to read producerId from file.\n");
             fclose(fileptr);
-            exit(1);
+            return 1;
         }
 
         result = fscanf(fileptr, "%d", &productsNum);
@@ -51,7 +51,7 @@ void readData(char *filename, Producer **producers, int num_producers, int *co_e
         {
             printf("Failed to read productsNum from file.\n");
             fclose(fileptr);
-            exit(1);
+            return 1;
         }
 
         result = fscanf(fileptr, "%d", &queueSize);
@@ -59,10 +59,21 @@ void readData(char *filename, Producer **producers, int num_producers, int *co_e
         {
             printf("Failed to read queueSize from file.\n");
             fclose(fileptr);
-            exit(1);
+            return 1;
         }
 
         producers[i] = createProduct(producerId, productsNum, queueSize);
+        if (producers[i] == NULL)
+        {
+            printf("malloc failed\n");
+            // free distroy everything that was make before go back from i to 0 and free everything
+            for (int j = i; j >= 0; j--)
+            {
+                destroyProducer(producers[j]);
+            }
+            fclose(fileptr);
+            return 1;
+        }
     }
 
     result = fscanf(fileptr, "%d", co_editor_queue_size);
@@ -70,7 +81,8 @@ void readData(char *filename, Producer **producers, int num_producers, int *co_e
     {
         printf("Failed to read co_editor_queue_size from file.\n");
         fclose(fileptr);
-        exit(1);
+        return 1;
     }
     fclose(fileptr);
+    return 0;
 }
