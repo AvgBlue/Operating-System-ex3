@@ -19,6 +19,7 @@ int main(int argc, char *argv[])
 
     char *filename = argv[1];
     int num_producers = linesCount(filename) / 4;
+
     Producer **producers = malloc(num_producers * sizeof(Producer *));
     if (producers == NULL)
     {
