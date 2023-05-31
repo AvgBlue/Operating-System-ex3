@@ -29,7 +29,7 @@ void start_Screen_Managar(Screen_Manager *screenManager)
     while (counter != 3)
     {
         v4si popValue = removeItem_Bounded_Buffer(screenManager->buffer);
-        if (popValue[0] == -99 && popValue[1] == -99 && popValue[2] == -99 && popValue[3] == -99)
+        if (popValue[0] == DONE && popValue[1] == DONE && popValue[2] == DONE && popValue[3] == DONE)
         {
             counter++;
             continue;
