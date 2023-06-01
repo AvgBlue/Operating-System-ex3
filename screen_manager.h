@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-
+#define DONE -99
 typedef struct
 {
     void *(*run)(void *arg);

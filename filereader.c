@@ -62,7 +62,7 @@ int readData(char *filename, Producer **producers, int num_producers, int *co_ed
             return 1;
         }
 
-        producers[i] = createProduct(i, productsNum, queueSize);
+        producers[i] = createProduct(productsNum - 1, productsNum, queueSize);
         if (producers[i] == NULL)
         {
             printf("malloc failed\n");
